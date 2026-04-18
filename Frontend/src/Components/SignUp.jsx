@@ -1,0 +1,77 @@
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+
+
+import axios from "axios";
+function SignUp() {
+  const navigate = useNavigate();
+  const [usernameS, setusername] = useState("");
+  const [emailS, setemail] = useState("");
+  const [passwordS, setpassword] = useState("");
+
+  const SubmitForm = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:3000/api/signup", {
+        username: usernameS,
+        email: emailS,
+        password: passwordS,
+      });
+      if (response.status == 201 || response.status == 200) {
+        alert("Accounts is created successfully");
+        navigate("/login");
+
+      } else {
+        alert(
+          "Registration failed: " + (response.data.message || "Unknown error"),
+        );
+      }
+    } catch (error) {
+      alert("Something went wrong! Please try again.");
+    }
+  };
+  return (
+    <div className="Form">
+      <form action="" onSubmit={SubmitForm}>
+        <input
+          type="text"
+          placeholder="Username"
+          name="Username"
+          onChange={(e) => setusername(e.target.value)}
+          value={usernameS}
+        />
+        <br />
+        <br />
+
+        <input
+          type="text"
+          placeholder="Email"
+          name="Email"
+          onChange={(e) => setemail(e.target.value)}
+          value={emailS}
+        />
+        <br />
+        <br />
+
+        <input
+          type="password"
+          placeholder="password"
+          name="password"
+          onChange={(e) => setpassword(e.target.value)}
+          value={passwordS}
+        />
+        <br />
+        <br />
+
+        <p>
+          Already have acoount <Link to="/SignUp">Login?</Link>
+        </p>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+}
+
+export default SignUp;
