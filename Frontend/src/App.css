@@ -974,3 +974,65 @@ h1 {
   border-radius: 40px;
   font-size: 0.8rem;
 }
+/* ========== EMERGENCY FIX: Make ALL buttons visible ========== */
+/* This overrides any hidden/transparent button styles */
+
+/* All buttons everywhere */
+button,
+button[type="submit"],
+button[type="button"],
+.btn,
+.navbar-nav .nav-link,
+.toDos button,
+.taskItem button,
+.Form button,
+.Form button[type="submit"] {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  background: linear-gradient(135deg, #4f46e5, #0ea5e9) !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 40px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  text-shadow: none !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* Specific fix for Login and Signup links in navbar */
+.navbar-nav .nav-link[href="/Login"],
+.navbar-nav .nav-link[href="/SignUp"] {
+  background: linear-gradient(135deg, #4f46e5, #0ea5e9) !important;
+  color: white !important;
+  padding: 0.4rem 1rem !important;
+  border-radius: 40px !important;
+  margin-left: 0.5rem !important;
+}
+
+/* Fix for Add Task button inside .toDos */
+.toDos button {
+  background: linear-gradient(135deg, #4f46e5, #0ea5e9) !important;
+  color: white !important;
+  padding: 0.7rem 1rem !important;
+  font-size: 1rem !important;
+}
+
+/* Fix for logout button (outline danger) */
+.btn-outline-danger {
+  background: transparent !important;
+  border: 1px solid #ef4444 !important;
+  color: #ef4444 !important;
+}
+
+.btn-outline-danger:hover {
+  background: #ef4444 !important;
+  color: white !important;
+}
+
+/* Ensure all buttons are clickable and not hidden behind anything */
+button, .btn {
+  z-index: 1000 !important;
+  position: relative !important;
+}
