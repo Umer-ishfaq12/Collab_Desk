@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { io } from "socket.io-client";
 import { useRef } from "react";
+import API_BASE from "../config/api";
+
 function TaskChat() {
   const [tasks, setTasks] = useState([]);
   const [selectedMsgId, setSelectedMsgId] = useState(null);
@@ -16,7 +18,10 @@ function TaskChat() {
 
   const socketRef = useRef();
   useEffect(() => {
-    socketRef.current = io("http://localhost:3000");
+    // socketRef.current = io("http://localhost:3000");
+    socketRef.current = io(API_BASE, {
+  transports: ["websocket", "polling"]
+});
 
     return () => {
       socketRef.current.disconnect();
@@ -36,7 +41,7 @@ function TaskChat() {
   //to get tasks
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/tasks")
+      .get("/api/tasks")
       .then((res) => setTasks(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -84,7 +89,7 @@ function TaskChat() {
     }
 
     try {
-      await axios.delete(`http://localhost:3000/api/messages/${id}`);
+      await axios.delete(`/api/messages/${id}`);
 
       setMessages((prev) => prev.filter((m) => m._id !== id));
     } catch (error) {
@@ -111,7 +116,7 @@ function TaskChat() {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/messages",
+        "/api/messages",
         {
           message: Msg,
           taskId: selectedTask._id,
@@ -172,7 +177,7 @@ function TaskChat() {
     if (!selectedTask) return;
 
     axios
-      .get(`http://localhost:3000/api/messages/${selectedTask._id}`)
+      .get(`/api/messages/${selectedTask._id}`)
       .then((res) => setMessages(res.data))
       .catch((err) => console.log(err));
   }, [selectedTask]);
@@ -186,7 +191,7 @@ function TaskChat() {
     if (!user?.id) return;
 
     axios
-      .get(`http://localhost:3000/api/unread/${user.id}`)
+      .get(`/api/unread/${user.id}`)
       .then((res) => {
         setUnreadCounts(res.data);
       })
@@ -199,7 +204,7 @@ function TaskChat() {
 
     const handler = () => {
       axios
-        .get(`http://localhost:3000/api/unread/${user.id}`)
+        .get(`/api/unread/${user.id}`)
         .then((res) => setUnreadCounts(res.data))
         .catch((err) => console.log(err));
     };
@@ -255,7 +260,7 @@ function TaskChat() {
                   onClick={() => {
                     setSelectedTask(t);
 
-                    axios.put("http://localhost:3000/api/messages/read", {
+                    axios.put("/api/messages/read", {
                       taskId: t._id,
                       userId: user.id,
                     });
