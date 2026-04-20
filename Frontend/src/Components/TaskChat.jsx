@@ -1,9 +1,14 @@
-import axios from "axios";
+// import axios1 from "axios1";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { io } from "socket.io-client";
 import { useRef } from "react";
+
 import API_BASE from "../config/api";
+import axios1 from "../config/axios";
+
+
+
 
 function TaskChat() {
   const [tasks, setTasks] = useState([]);
@@ -40,7 +45,7 @@ function TaskChat() {
 
   //to get tasks
   useEffect(() => {
-    axios
+    axios1
       .get("/api/tasks")
       .then((res) => setTasks(res.data))
       .catch((err) => console.log(err));
@@ -89,7 +94,7 @@ function TaskChat() {
     }
 
     try {
-      await axios.delete(`/api/messages/${id}`);
+      await axios1.delete(`/api/messages/${id}`);
 
       setMessages((prev) => prev.filter((m) => m._id !== id));
     } catch (error) {
@@ -115,7 +120,7 @@ function TaskChat() {
     }
 
     try {
-      const res = await axios.post(
+      const res = await axios1.post(
         "/api/messages",
         {
           message: Msg,
@@ -176,7 +181,7 @@ function TaskChat() {
   useEffect(() => {
     if (!selectedTask) return;
 
-    axios
+    axios1
       .get(`/api/messages/${selectedTask._id}`)
       .then((res) => setMessages(res.data))
       .catch((err) => console.log(err));
@@ -190,7 +195,7 @@ function TaskChat() {
   useEffect(() => {
     if (!user?.id) return;
 
-    axios
+    axios1
       .get(`/api/unread/${user.id}`)
       .then((res) => {
         setUnreadCounts(res.data);
@@ -203,7 +208,7 @@ function TaskChat() {
     if (!socketRef.current || !user?.id) return;
 
     const handler = () => {
-      axios
+      axios1
         .get(`/api/unread/${user.id}`)
         .then((res) => setUnreadCounts(res.data))
         .catch((err) => console.log(err));
@@ -260,7 +265,7 @@ function TaskChat() {
                   onClick={() => {
                     setSelectedTask(t);
 
-                    axios.put("/api/messages/read", {
+                    axios1.put("/api/messages/read", {
                       taskId: t._id,
                       userId: user.id,
                     });
