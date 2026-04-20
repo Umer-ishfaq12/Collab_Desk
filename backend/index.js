@@ -11,10 +11,18 @@ const { Server } = require("socket.io");
 const server = http.createServer(app);
 
 // attach socket
+// const io = new Server(server, {
+//   cors: {
+//     origin: "*",
+//   },
+// });
+
 const io = new Server(server, {
   cors: {
-    origin: "*",
-  },
+    origin: "https://collab-desk-gamma.vercel.app",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
 });
 
 //functions of socket
@@ -43,7 +51,13 @@ io.on("connection", (socket) => {
 });
 
 
-app.use(cors())
+// app.use(cors())
+app.use(cors({
+  origin: "https://collab-desk-gamma.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use("/api",UserRoutes)
 app.set("io", io);
