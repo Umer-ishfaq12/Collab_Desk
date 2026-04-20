@@ -22,9 +22,10 @@ const io = new Server(server, {
     origin: "https://collab-desk-gamma.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
-  }
+  },
+   transports: ['websocket', 'polling']
 });
-
+app.set('io', io); 
 //functions of socket
 
 io.on("connection", (socket) => {
