@@ -39,12 +39,14 @@ io.emit("unreadUpdate"); // notify everyone to refresh unread counts
 //get
 const getMsg = async (req, res) => {
   try {
+      console.log("GET TASK HIT"); 
     const { taskId } = req.params;
 
     const messages = await Msg.find({ taskId }).sort({ createdAt: 1 }); // oldest to the  latest
 
     res.status(200).json(messages);
   } catch (error) {
+       console.error("TASK ERROR:", err);
     res.status(500).json({
       message: "Messages not found",
       error: error.message,
