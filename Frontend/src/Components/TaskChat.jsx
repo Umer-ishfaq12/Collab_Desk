@@ -28,9 +28,12 @@ function TaskChat() {
 //   transports: ["websocket", "polling"]
 // });
 socketRef.current = io(API_BASE, {
-  transports: ["polling", "websocket"],
-  withCredentials: true
-});
+    transports: ["websocket", "polling"],  // ✅ Try websocket first
+    withCredentials: true,
+    reconnection: true,
+    reconnectionAttempts: 5,
+    reconnectionDelay: 1000
+  });
 
     return () => {
       socketRef.current.disconnect();

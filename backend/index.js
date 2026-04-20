@@ -23,9 +23,18 @@ const io = new Server(server, {
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
   },
-   transports: ['websocket', 'polling']
+   transports: ['websocket', 'polling'],
+     allowEIO3: true
 });
-app.set('io', io); 
+app.set('io', io);
+// ✅ Add this for WebSocket upgrade
+app.use((req, res, next) => {
+  if (req.headers.upgrade === 'websocket') {
+    // Let Socket.IO handle WebSocket upgrades
+    return next();
+  }
+  next();
+}); 
 //functions of socket
 
 io.on("connection", (socket) => {
