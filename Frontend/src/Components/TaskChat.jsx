@@ -24,8 +24,12 @@ function TaskChat() {
   const socketRef = useRef();
   useEffect(() => {
     // socketRef.current = io("http://localhost:3000");
-    socketRef.current = io(API_BASE, {
-  transports: ["websocket", "polling"]
+//     socketRef.current = io(API_BASE, {
+//   transports: ["websocket", "polling"]
+// });
+socketRef.current = io(API_BASE, {
+  transports: ["polling", "websocket"],
+  withCredentials: true
 });
 
     return () => {
