@@ -1,10 +1,11 @@
 import axios from "axios";
+import axios1 from "../config/axios";
 import { useEffect, useState } from "react";
 function Team() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/users")
+    axios1.get("/api/users")
       .then(res => setUsers(res.data))
       .catch(err => console.log(err));
   }, []);

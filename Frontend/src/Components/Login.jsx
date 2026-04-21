@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios1 from "../config/axios";
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import axios from "axios"
 import toast from "react-hot-toast";
@@ -11,7 +12,7 @@ function Login() {
 const submitForm =async  (e) =>{
   e.preventDefault();
 try {
-  const response = await axios.post("http://localhost:3000/api/login",{
+  const response = await axios1.post("/api/login",{
   username : usernameS,
   password : passwordS,
 })

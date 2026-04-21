@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios1 from "../config/axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -14,7 +15,7 @@ function SignUp() {
   const SubmitForm = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/api/signup", {
+      const response = await axios1.post("/api/signup", {
         username: usernameS,
         email: emailS,
         password: passwordS,
