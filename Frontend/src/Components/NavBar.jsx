@@ -1,44 +1,4 @@
-// import Container from 'react-bootstrap/Container';
-// import Nav from 'react-bootstrap/Nav';
-// import Navbar from 'react-bootstrap/Navbar';
-// import NavDropdown from 'react-bootstrap/NavDropdown';
-// import { BrowserRouter as Router, Routes, Route, Link, NavLink, useNavigate } from 'react-router-dom';
 
-
-// function NavBar() {
-//   const navigate = useNavigate();
-//   const handleLogout = () => {
-//   localStorage.removeItem("user");
-//   navigate("/Login");
-// };
-//   return (
-//     <Navbar expand="lg" className="bg-body-tertiary">
-//       <Container>
-//         <Navbar.Brand href="#home">Collab-Desk</Navbar.Brand>
-//         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-//         <Navbar.Collapse id="basic-navbar-nav">
-//           <Nav className="me-auto">
-//             <Link to={"/"}>Home</Link>
-//             <Link to={"/Team"}>Team</Link>
-//             <NavDropdown title="Tasks" id="basic-nav-dropdown">
-//               <NavDropdown.Item ><Link to={"/Todo"}>Task</Link></NavDropdown.Item>
-//               <NavDropdown.Item href="#action/3.2">
-//                 Pending Task
-//               </NavDropdown.Item>
-//               <NavDropdown.Item href="#action/3.3">Complete Task</NavDropdown.Item>
-//               <NavDropdown.Divider />
-             
-//             </NavDropdown>
-//             <Link to={"/Login"}>LOGIN</Link>
-//             <button onClick={handleLogout}>Logout</button>
-//           </Nav>
-//         </Navbar.Collapse>
-//       </Container>
-//     </Navbar>
-//   );
-// }
-
-// export default NavBar;
 
 
 import Container from 'react-bootstrap/Container';

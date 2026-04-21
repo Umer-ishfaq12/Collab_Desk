@@ -1,3 +1,6 @@
+import { Link, useNavigate } from 'react-router-dom';
+import SignUp from "../Components/SignUp";
+
 function HomePage() {
   return (
     <div className="home-container">
@@ -5,8 +8,8 @@ function HomePage() {
       <p className="subtitle">Collaborate. Communicate. Get Things Done.</p>
 
       <div className="home-actions">
-        <button className="btn primary">Get Started</button>
-        <button className="btn secondary">View Tasks</button>
+        <button className="btn primary"><Nav.Link as={Link} to="/SignUp">Get Started</Nav.Link></button>
+        <button className="btn secondary"><Nav.Link as={Link} to="/SignUp">View Tasks</Nav.Link></button>
       </div>
 
       {/* Image Slider */}
