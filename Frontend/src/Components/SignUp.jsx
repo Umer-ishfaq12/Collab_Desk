@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-
+import toast from "react-hot-toast";
 
 import axios from "axios";
 function SignUp() {
@@ -14,22 +14,22 @@ function SignUp() {
   const SubmitForm = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/api/signup", {
+      const response = await axios.post("/api/signup", {
         username: usernameS,
         email: emailS,
         password: passwordS,
       });
       if (response.status == 201 || response.status == 200) {
-        alert("Accounts is created successfully");
+        toast.success("Accounts is created successfully");
         navigate("/login");
 
       } else {
-        alert(
+        toast.error(
           "Registration failed: " + (response.data.message || "Unknown error"),
         );
       }
     } catch (error) {
-      alert("Something went wrong! Please try again.");
+      toast.error("Something went wrong! Please try again.");
     }
   };
   return (

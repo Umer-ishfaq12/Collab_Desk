@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -34,6 +35,7 @@ function App() {
 
   return (
     <>
+     <Toaster position="top-right" reverseOrder={false} />
       <Router>
         <NavBar></NavBar>
         <Routes>
