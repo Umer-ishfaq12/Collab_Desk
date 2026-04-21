@@ -8,8 +8,12 @@ function HomePage() {
       <p className="subtitle">Collaborate. Communicate. Get Things Done.</p>
 
       <div className="home-actions">
-        <button className="btn primary"><Nav.Link as={Link} to="/SignUp">Get Started</Nav.Link></button>
-        <button className="btn secondary"><Nav.Link as={Link} to="/SignUp">View Tasks</Nav.Link></button>
+        <button className="btn primary"><Link to="/SignUp" className="btn primary">
+  Get Started
+</Link></button>
+        <button className="btn secondary"><Link to="/SignUp" className="btn secondary">
+  View Tasks
+</Link></button>
       </div>
 
       {/* Image Slider */}
