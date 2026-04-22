@@ -21,6 +21,8 @@ function TaskChat() {
   const [messages, setMessages] = useState([]);
   const [notification, setNotification] = useState(null);
   const [unreadCounts, setUnreadCounts] = useState({});
+  const [pendingDeleteMsg, setPendingDeleteMsg] = useState(null);
+const [msgTimerId, setMsgTimerId] = useState(null);
 
   const socketRef = useRef();
   useEffect(() => {
@@ -95,20 +97,76 @@ socketRef.current = io(API_BASE, {
     return `${hours}h ${minutes}m ${seconds}s`;
   };
 
-  const deleteMessage = async (id, senderId) => {
-    if (senderId !== user.id) {
-      toast.error("You cannot delete others' messages");
-      return;
-    }
+  // const deleteMessage = async (id, senderId) => {
+  //   if (senderId !== user.id) {
+  //     toast.error("You cannot delete others' messages");
+  //     return;
+  //   }
 
+  //   try {
+  //     await axios1.delete(`/api/messages/${id}`);
+
+  //     setMessages((prev) => prev.filter((m) => m._id !== id));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const deleteMessage = (msg) => {
+  if (msg.senderId !== user.id) {
+    toast.error("You cannot delete others' messages");
+    return;
+  }
+
+  // remove from UI
+  setMessages((prev) => prev.filter((m) => m._id !== msg._id));
+
+  // store deleted message
+  setPendingDeleteMsg(msg);
+
+  // start 5s timer
+  const timeout = setTimeout(async () => {
     try {
-      await axios1.delete(`/api/messages/${id}`);
+      await axios1.delete(`/api/messages/${msg._id}`);
 
-      setMessages((prev) => prev.filter((m) => m._id !== id));
+      setPendingDeleteMsg(null);
+      setMsgTimerId(null);
+
+      toast.success("Message deleted permanently");
     } catch (error) {
-      console.log(error);
+      toast.error("Delete failed");
     }
-  };
+  }, 5000);
+
+  setMsgTimerId(timeout);
+
+  // toast with undo
+  toast((t) => (
+    <span>
+      Message deleted
+      <button onClick={() => undoDeleteMessage(t.id)}>Undo</button>
+    </span>
+  ), { duration: 5000 });
+};
+
+//undo function
+const undoDeleteMessage = (toastId) => {
+  if (!pendingDeleteMsg) return;
+
+  if (msgTimerId) clearTimeout(msgTimerId);
+
+  setMessages((prev) => {
+    // prevent duplicate restore
+    if (prev.find((m) => m._id === pendingDeleteMsg._id)) return prev;
+    return [...prev, pendingDeleteMsg];
+  });
+
+  setPendingDeleteMsg(null);
+  setMsgTimerId(null);
+
+  toast.dismiss(toastId);
+  toast.success("Message restored");
+};
 
   //post message
   const Send_msg = async () => {
@@ -348,7 +406,7 @@ socketRef.current = io(API_BASE, {
                         )}
                         {selectedMsgId === msg._id && (
                           <button
-                            onClick={() => deleteMessage(msg._id, msg.senderId)}
+                            onClick={() => deleteMessage(msg)}
                           >
                             Delete
                           </button>

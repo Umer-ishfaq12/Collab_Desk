@@ -152,11 +152,17 @@ const deleteTask = (task) => {
 };
 //undo function
 const undoDelete = (toastId) => {
-  clearTimeout(timerId);
+  if (!pendingDelete) return;
 
-  setTasks((prev) => [pendingDelete, ...prev]);
+  if (timerId) clearTimeout(timerId);
+
+  setTasks((prev) => {
+    if (prev.find((t) => t._id === pendingDelete._id)) return prev;
+    return [pendingDelete, ...prev];
+  });
 
   setPendingDelete(null);
+  setTimerId(null);
 
   toast.dismiss(toastId);
   toast.success("Task restored");
