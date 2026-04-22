@@ -23,7 +23,7 @@ function TaskChat() {
   const [unreadCounts, setUnreadCounts] = useState({});
   const [pendingDeleteMsg, setPendingDeleteMsg] = useState(null);
 const [msgTimerId, setMsgTimerId] = useState(null);
-
+const pendingDeleteRef = useRef(null);
   const socketRef = useRef();
   useEffect(() => {
     // socketRef.current = io("http://localhost:3000");
@@ -97,22 +97,47 @@ socketRef.current = io(API_BASE, {
     return `${hours}h ${minutes}m ${seconds}s`;
   };
 
-  // const deleteMessage = async (id, senderId) => {
-  //   if (senderId !== user.id) {
-  //     toast.error("You cannot delete others' messages");
-  //     return;
-  //   }
 
-  //   try {
-  //     await axios1.delete(`/api/messages/${id}`);
+//   const deleteMessage = (msg) => {
+//   if (msg.senderId !== user.id) {
+//     toast.error("You cannot delete others' messages");
+//     return;
+//   }
 
-  //     setMessages((prev) => prev.filter((m) => m._id !== id));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+//   // remove from UI
+//   setMessages((prev) => prev.filter((m) => m._id !== msg._id));
 
-  const deleteMessage = (msg) => {
+//   // store deleted message
+//   setPendingDeleteMsg(msg);
+
+//   // start 5s timer
+//   const timeout = setTimeout(async () => {
+//     try {
+//       await axios1.delete(`/api/messages/${msg._id}`);
+
+//       setPendingDeleteMsg(null);
+//       setMsgTimerId(null);
+
+//       toast.success("Message deleted permanently");
+//     } catch (error) {
+//       toast.error("Delete failed");
+//     }
+//   }, 5000);
+
+//   setMsgTimerId(timeout);
+
+//   // toast with undo
+//   toast((t) => (
+//     <span>
+//       Message deleted
+//       <button onClick={() => undoDeleteMessage(t.id)}>Undo</button>
+//     </span>
+//   ), { duration: 5000 });
+// };
+
+//undo function
+
+const deleteMessage = (msg) => {
   if (msg.senderId !== user.id) {
     toast.error("You cannot delete others' messages");
     return;
@@ -121,26 +146,25 @@ socketRef.current = io(API_BASE, {
   // remove from UI
   setMessages((prev) => prev.filter((m) => m._id !== msg._id));
 
-  // store deleted message
+  // store in BOTH
   setPendingDeleteMsg(msg);
+  pendingDeleteRef.current = msg;
 
-  // start 5s timer
   const timeout = setTimeout(async () => {
     try {
       await axios1.delete(`/api/messages/${msg._id}`);
 
+      pendingDeleteRef.current = null;
       setPendingDeleteMsg(null);
-      setMsgTimerId(null);
 
       toast.success("Message deleted permanently");
-    } catch (error) {
+    } catch {
       toast.error("Delete failed");
     }
   }, 5000);
 
   setMsgTimerId(timeout);
 
-  // toast with undo
   toast((t) => (
     <span>
       Message deleted
@@ -149,26 +173,44 @@ socketRef.current = io(API_BASE, {
   ), { duration: 5000 });
 };
 
-//undo function
-const undoDeleteMessage = (toastId) => {
-  if (!pendingDeleteMsg) return;
+// const undoDeleteMessage = (toastId) => {
+//   if (!pendingDeleteMsg) return;
+
+//   if (msgTimerId) clearTimeout(msgTimerId);
+
+//   setMessages((prev) => {
+//     // prevent duplicate restore
+//     if (prev.find((m) => m._id === pendingDeleteMsg._id)) return prev;
+//     return [...prev, pendingDeleteMsg];
+//   });
+
+//   setPendingDeleteMsg(null);
+//   setMsgTimerId(null);
+
+//   toast.dismiss(toastId);
+//   toast.success("Message restored");
+// };
+
+  //post message
+  const undoDeleteMessage = (toastId) => {
+  const msg = pendingDeleteRef.current;
+
+  if (!msg) return;
 
   if (msgTimerId) clearTimeout(msgTimerId);
 
   setMessages((prev) => {
-    // prevent duplicate restore
-    if (prev.find((m) => m._id === pendingDeleteMsg._id)) return prev;
-    return [...prev, pendingDeleteMsg];
+    if (prev.find((m) => m._id === msg._id)) return prev;
+    return [...prev, msg];
   });
 
+  pendingDeleteRef.current = null;
   setPendingDeleteMsg(null);
   setMsgTimerId(null);
 
   toast.dismiss(toastId);
   toast.success("Message restored");
 };
-
-  //post message
   const Send_msg = async () => {
     if (!user || !user.id) {
       toast.error("User not found. Please login again.");
