@@ -18,6 +18,7 @@ import Login from "./Components/Login";
 import { Navigate } from "react-router-dom";
 import TaskChat from "./Components/TaskChat";
 import Team from "./Components/Team"
+import Footer from "./Components/Footer";
 function App() {
   const RequireAuth = ({ children, roles }) => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -54,6 +55,7 @@ function App() {
           <Route path="/chat" element={<TaskChat />}></Route>
           <Route path="/team" element={<Team />}></Route>
         </Routes>
+        <Footer/>
       </Router>
     </>
   );

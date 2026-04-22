@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import axios1 from "../config/axios";
+import toast from "react-hot-toast";
+
 
 function Todo() {
   const [tasks, setTasks] = useState([]);
@@ -27,7 +30,7 @@ const [editId, setEditId] = useState(null);
   const addTask = async () => {
     try {
       // backend call (optional)
-      const res = await axios.post("http://localhost:3000/api/tasks", form);
+      const res = await axios1.post("/api/tasks", form);
 
       setTasks([...tasks, res.data]);
 
@@ -40,14 +43,17 @@ const [editId, setEditId] = useState(null);
         taskEnd: "",
         priority: "medium",
       });
+    toast.success("Task ADDED successfully");
+
     } catch (error) {
       console.log(error);
+      toast.error("Failed to ADD task");
     }
   };
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/tasks")
+    axios1
+      .get("/api/tasks")
       .then((res) => setTasks(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -66,8 +72,8 @@ const handleEdit = (task) => {
 };
 const updateTask = async () => {
   try {
-    const res = await axios.put(
-      `http://localhost:3000/api/tasks/${editId}`,
+    const res = await axios1.put(
+      `/api/tasks/${editId}`,
       form
     );
 
@@ -85,6 +91,7 @@ const updateTask = async () => {
       taskEnd: "",
       priority: "medium",
     });
+    toast.success("Task UPDATED successfully");
 
   } catch (error) {
     console.log(error);
@@ -103,11 +110,23 @@ const getRemainingTime = (taskEnd) => {
 
   // delete task
 
-  const deleteTask = async (id) => {
-  await axios.delete(`http://localhost:3000/api/tasks/${id}`);
-    setTasks(tasks.filter((t) => t._id !== id));
-  };
+  // const deleteTask = async (id) => {
+  // await axios1.delete(`/api/tasks/${id}`);
+  //   setTasks(tasks.filter((t) => t._id !== id));
+  // };
 
+
+const deleteTask = async (id) => {
+   if (!window.confirm("Are you sure you want to delete this task?")) return;
+  try {
+    await axios1.delete(`/api/tasks/${id}`);
+    setTasks(tasks.filter((t) => t._id !== id));
+
+    toast.success("Task deleted successfully");
+  } catch (error) {
+    toast.error("Failed to delete task");
+  }
+};
   const formatDateTime = (date) => {
   return new Date(date).toLocaleString("en-GB", {
     day: "2-digit",
@@ -121,7 +140,7 @@ const getRemainingTime = (taskEnd) => {
   return (
     <>
       <h1>Collab Desk Tasks</h1>
-
+{editId && <p style={{color: "orange"}}>Editing Task...</p>}
       <div className="toDos">
         <input
           name="taskName"
@@ -164,7 +183,11 @@ const getRemainingTime = (taskEnd) => {
           <option value="high">High</option>
         </select>
 
-        <button onClick={addTask}>Add Task</button>
+        {/* <button onClick={addTask}>Add Task</button> */}
+        <button onClick={editId ? updateTask : addTask}>
+  {editId ? "Update Task" : "Add Task"}
+</button>
+        
       </div>
 
       <div className="displayTask">
@@ -180,10 +203,15 @@ const getRemainingTime = (taskEnd) => {
             <p>End: {formatDateTime(t.taskEnd)}</p>
             
             <p>Remaining Time: {getRemainingTime(t.taskEnd)}</p>
-            <button onClick={editId ? updateTask : addTask}>
+            {/* <button onClick={editId ? updateTask : addTask}>
   {editId ? "Update Task" : "Add Task"}
 </button>
+<button onClick={() => handleEdit(t)}>Edit</button> */}
 <button onClick={() => handleEdit(t)}>Edit</button>
+
+<button onClick={() => deleteTask(t._id)}>
+  Delete
+</button>
           </div>
         ))}
       </div>
