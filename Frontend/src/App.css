@@ -1036,3 +1036,101 @@ button, .btn {
   z-index: 1000 !important;
   position: relative !important;
 }
+
+/* -------------------------------
+   Footer - Modern Glass Style
+-------------------------------- */
+
+.footer {
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-light);
+  margin-top: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle gradient glow like homepage */
+.footer::before {
+  content: '';
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, var(--primary-soft), transparent 70%);
+  top: -100px;
+  left: -80px;
+  opacity: 0.4;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2.5rem 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* Brand */
+.footer-brand h2 {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  /* -webkit-background-clip: text; */
+  color: transparent;
+  font-size: 1.6rem;
+}
+
+.footer-brand p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* Links */
+.footer-links h4,
+.footer-contact h4 {
+  margin-bottom: 0.8rem;
+  color: var(--text-primary);
+}
+
+.footer-links a {
+  display: block;
+  text-decoration: none;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+  transition: var(--transition);
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+  transform: translateX(3px);
+}
+
+/* Contact */
+.footer-contact p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0.3rem 0;
+}
+
+/* Bottom bar */
+.footer-bottom {
+  text-align: center;
+  padding: 1rem;
+  border-top: 1px solid var(--border-light);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* -------------------------------
+   Responsive
+-------------------------------- */
+
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-links a:hover {
+    transform: none;
+  }
+}
