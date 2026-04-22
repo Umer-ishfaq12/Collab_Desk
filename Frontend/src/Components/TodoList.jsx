@@ -5,7 +5,9 @@ import toast from "react-hot-toast";
 
 
 function Todo() {
-  const [tasks, setTasks] = useState([]);
+  const [pendingDelete, setPendingDelete] = useState(null);
+const [timerId, setTimerId] = useState(null);
+const [tasks, setTasks] = useState([]);
 const [editId, setEditId] = useState(null);
   const [form, setForm] = useState({
     taskName: "",
@@ -116,17 +118,50 @@ const getRemainingTime = (taskEnd) => {
   // };
 
 
-const deleteTask = async (id) => {
-   if (!window.confirm("Are you sure you want to delete this task?")) return;
-  try {
-    await axios1.delete(`/api/tasks/${id}`);
-    setTasks(tasks.filter((t) => t._id !== id));
+const deleteTask = (task) => {
+  if (!window.confirm("Are you sure you want to delete this task?")) return;
 
-    toast.success("Task deleted successfully");
-  } catch (error) {
-    toast.error("Failed to delete task");
-  }
+  // remove from UI
+  setTasks((prev) => prev.filter((t) => t._id !== task._id));
+
+  // store deleted task
+  setPendingDelete(task);
+
+  // start timer
+  const timeout = setTimeout(async () => {
+    try {
+      await axios1.delete(`/api/tasks/${task._id}`);
+      setPendingDelete(null);
+      toast.success("Task deleted permanently");
+    } catch (error) {
+      toast.error("Failed to delete task");
+    }
+  }, 5000);
+
+  setTimerId(timeout);
+
+  toast(
+    (t) => (
+      <span>
+        Task deleted
+        <button onClick={() => undoDelete(t.id)}>Undo</button>
+      </span>
+    ),
+    { duration: 5000 }
+  );
 };
+//undo function
+const undoDelete = (toastId) => {
+  clearTimeout(timerId);
+
+  setTasks((prev) => [pendingDelete, ...prev]);
+
+  setPendingDelete(null);
+
+  toast.dismiss(toastId);
+  toast.success("Task restored");
+};
+
   const formatDateTime = (date) => {
   return new Date(date).toLocaleString("en-GB", {
     day: "2-digit",
@@ -209,7 +244,7 @@ const deleteTask = async (id) => {
 <button onClick={() => handleEdit(t)}>Edit</button> */}
 <button onClick={() => handleEdit(t)}>Edit</button>
 
-<button onClick={() => deleteTask(t._id)}>
+<button onClick={() => deleteTask(t)}>
   Delete
 </button>
           </div>
