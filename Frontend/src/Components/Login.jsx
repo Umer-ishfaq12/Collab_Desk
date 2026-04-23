@@ -39,6 +39,7 @@ toast.success("successfull login")
   return (
     <div className="Form">
       <form action="" onSubmit={submitForm}>
+        <h2 className="form-title">Welcome Back</h2>
       <input type="text" 
       placeholder='Username' 
       name='Username' 

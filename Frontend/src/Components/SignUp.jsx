@@ -36,6 +36,7 @@ function SignUp() {
   return (
     <div className="Form">
       <form action="" onSubmit={SubmitForm}>
+        <h2 className="form-title">Create Account</h2>
         <input
           type="text"
           placeholder="Username"
@@ -67,8 +68,8 @@ function SignUp() {
         <br />
 
         <p>
-          Already have acoount <Link to="/SignUp">Login?</Link>
-        </p>
+  Already have account <Link to="/Login">Login?</Link>
+</p>
         <button type="submit">Submit</button>
       </form>
     </div>
