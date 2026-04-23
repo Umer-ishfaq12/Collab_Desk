@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import "./App.css";
+// import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Todo from "./Components/TodoList";

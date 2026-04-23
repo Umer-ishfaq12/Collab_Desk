@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import SignUp from "../Components/SignUp";
+import Footer from './Footer';
 
 function HomePage() {
   return (
@@ -8,12 +9,12 @@ function HomePage() {
       <p className="subtitle">Collaborate. Communicate. Get Things Done.</p>
 
       <div className="home-actions">
-        <button className="btn primary"><Link to="/SignUp" className="btn primary">
-  Get Started
-</Link></button>
-        <button className="btn secondary"><Link to="/SignUp" className="btn secondary">
-  View Tasks
-</Link></button>
+        
+<div className="home-actions">
+  <Link to="/SignUp" className="btn primary">Get Started</Link>
+  <Link to="/SignUp" className="btn secondary">View Tasks</Link>
+</div>
+
       </div>
 
       {/* Image Slider */}
@@ -39,7 +40,33 @@ function HomePage() {
         <span className="dot"></span>
         <span className="dot"></span>
       </div>
+      {/* FEATURES */}
+
+      <div className="features">
+  <div className="feature-card">
+    <h3>Task Management</h3>
+    <p>Create, assign and track tasks easily</p>
+  </div>
+
+  <div className="feature-card">
+    <h3>Real-time Chat</h3>
+    <p>Communicate instantly with your team</p>
+  </div>
+
+  <div className="feature-card">
+    <h3>Team Collaboration</h3>
+    <p>Work together efficiently</p>
+  </div>
+</div>
+
+<div className="cta">
+  <h2>Start collaborating today</h2>
+  <p>Organize tasks, chat with your team, and boost productivity.</p>
+  <Link to="/SignUp" className="btn primary">Get Started</Link>
+</div>
     </div>
+    
+    
   );
 }
 export default HomePage

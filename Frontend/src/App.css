@@ -3,7 +3,7 @@
    HomePage - Hero + Image Slider
 -------------------------------- */
 
-.home-container {
+/* .home-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -14,6 +14,20 @@
   position: relative;
   overflow-x: hidden;
   background: linear-gradient(135deg, rgba(79, 70, 229, 0.05) 0%, rgba(14, 165, 233, 0.05) 100%);
+} */
+
+.home-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  position: relative;
+  overflow: hidden;
+
+  background: radial-gradient(circle at top, #0f172a, #020617);
 }
 
 /* Animated gradient background */
@@ -50,22 +64,28 @@
   50% { transform: translate(30px, -30px) scale(1.05); }
 }
 
-/* Title & Subtitle */
+
 .title {
   font-size: clamp(2.5rem, 8vw, 5rem);
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  font-weight: 900;
+  background: linear-gradient(135deg, #7c3aed, #06b6d4);
   -webkit-background-clip: text;
-  background-clip: text;
   color: transparent;
-  margin-bottom: 1rem;
-  letter-spacing: -0.02em;
-  animation: fadeUp 0.8s ease-out;
   position: relative;
-  z-index: 1;
 }
-
-.subtitle {
+.title::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(124,58,237,0.25), transparent);
+  filter: blur(80px);
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+}
+/* .subtitle {
   font-size: clamp(1rem, 4vw, 1.5rem);
   color: var(--text-secondary);
   max-width: 600px;
@@ -73,6 +93,13 @@
   animation: fadeUp 0.8s ease-out 0.1s backwards;
   position: relative;
   z-index: 1;
+} */
+
+.subtitle {
+  font-size: clamp(1rem, 4vw, 1.4rem);
+  color: #94a3b8;
+  max-width: 600px;
+  margin: 0 auto 2rem;
 }
 
 /* Buttons container */
@@ -87,55 +114,46 @@
   z-index: 1;
 }
 
-/* Button styles (extends your global button) */
+
 .btn {
+  display: inline-block;
   padding: 0.8rem 2rem;
-  border-radius: 40px;
+  border-radius: 999px;
   font-weight: 600;
-  font-size: 1rem;
-  transition: var(--transition);
-  cursor: pointer;
-  border: none;
-  font-family: inherit;
+  text-decoration: none;
+  transition: 0.3s ease;
 }
 
 .btn.primary {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: linear-gradient(135deg, #7c3aed, #06b6d4);
   color: white;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
 }
 
 .btn.primary:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lg);
-  filter: brightness(1.05);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(124, 58, 237, 0.5);
 }
 
-.btn.secondary {
-  background: transparent;
-  border: 2px solid var(--primary);
-  color: var(--primary);
+ .btn.secondary {
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #e2e8f0;
+  background: rgba(255,255,255,0.05);
 }
 
 .btn.secondary:hover {
-  background: var(--primary-soft);
+  background: rgba(255,255,255,0.1);
   transform: translateY(-3px);
 }
-
-/* ---------- Image Slider (Pure CSS, scroll-snap) ---------- */
-/* Add this HTML structure inside your HomePage (after .home-actions) */
 
 .slider-container {
   width: 100%;
   max-width: 1100px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
+  margin-top: 2rem;
+  border-radius: 20px;
   overflow: hidden;
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
-
 .slider-track {
   display: flex;
   overflow-x: auto;
@@ -165,7 +183,12 @@
   scroll-snap-align: start;
   position: relative;
 }
-
+.slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+}
 .slide img {
   width: 100%;
   height: auto;
@@ -183,15 +206,12 @@
 /* Optional: Caption overlay */
 .slide-caption {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  bottom: 20px;
+  left: 20px;
   color: white;
-  padding: 1.5rem;
-  text-align: left;
-  font-weight: 500;
-  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  font-size: 1.1rem;
+  font-weight: 600;
+  z-index: 2;
 }
 
 /* Slider navigation dots (optional, add below slider) */
@@ -249,17 +269,147 @@
   }
 }
 
+.home-container > * {
+  animation: fadeUp 0.8s ease both;
+}
 /* Dark mode support */
-.dark .home-container::before {
+/* .dark .home-container::before {
   background: radial-gradient(circle at 20% 30%, rgba(79, 70, 229, 0.15) 0%, transparent 50%),
               radial-gradient(circle at 80% 70%, rgba(14, 165, 233, 0.15) 0%, transparent 50%);
-}
+} */
 
 .dark .slide-caption {
   background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
 }
 
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.8rem;
+  margin: 4rem auto;
+  max-width: 1100px;
+  padding: 0 1rem;   /* prevents side overflow on mobile */
+}
+.feature-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 1.8rem;
+  border-radius: 16px;
+  text-align: left;
+  transition: 0.3s ease;
 
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;   /* controls spacing inside card */
+}
+.feature-card h3 {
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.feature-card p {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+  border-color: rgba(124,58,237,0.4);
+}
+@media (max-width: 500px) {
+  .feature-card {
+    text-align: center;
+    padding: 1.5rem;
+  }
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+.cta {
+  margin: 5rem auto;
+  padding: 3rem 2rem;
+  max-width: 900px;
+  text-align: center;
+
+  background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(6,182,212,0.15));
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+
+  backdrop-filter: blur(10px);
+}
+.cta h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+.cta p {
+  color: #cbd5f5;   /* brighter than before */
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+.cta .btn.primary {
+  font-size: 1.1rem;
+  padding: 0.9rem 2.2rem;
+}
+.steps{
+  color: #cbd5f5;   /* brighter than before */
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/*NAVBAR CSS*/
+
+.custom-navbar {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.custom-navbar .navbar-brand {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #ffffff;
+}
+.custom-navbar .nav-link {
+  color: #cbd5f5 !important;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.custom-navbar .nav-link:hover {
+  color: #7c3aed !important;
+}
+.custom-navbar .nav-link {
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+}
+
+.custom-navbar .nav-link:hover {
+  background: rgba(255,255,255,0.05);
+}
+.custom-navbar .fw-bold {
+  background: rgba(124,58,237,0.2);
+  color: #a78bfa;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+.custom-navbar .btn-outline-danger {
+  border-radius: 20px;
+  padding: 0.3rem 0.8rem;
+}
+@media (max-width: 992px) {
+  .custom-navbar .navbar-collapse {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(15,23,42,0.95);
+    border-radius: 12px;
+  }
+}
 /*SIGN AND LOGIN CSS*/
 
 /* -------------------------------
@@ -425,6 +575,10 @@
     transform: translateY(0);
   }
 }
+
+
+
+
 /*TODO css*/
 /* -------------------------------
    Todo Component - Task Management
@@ -760,11 +914,6 @@ h1 {
   background: #fafafa;
 }
 
-/* Placeholder text */
-/* .placeholder {
-  text-align: center;
-  color: gray;
-} */
 
 /* Chat input */
 .chatInputBox {
@@ -928,43 +1077,7 @@ h1 {
   justify-content: space-between;
 }
 
-/* ========== FIX: Make navbar buttons (Login, Signup, Tasks) visible ========== */
-/* This fixes the bug where buttons were not showing */
-.navbar-nav .nav-link {
-  color: var(--text-primary) !important;
-  font-weight: 500;
-  padding: 0.5rem 0.75rem;
-  border-radius: var(--radius-md);
-  transition: var(--transition);
-}
 
-.navbar-nav .nav-link:hover {
-  color: var(--primary) !important;
-  background: var(--primary-soft);
-}
-
-/* Ensure dropdown items are visible */
-.navbar-nav .dropdown-menu .dropdown-item {
-  color: var(--text-primary);
-  background: var(--bg-surface);
-}
-
-.navbar-nav .dropdown-menu .dropdown-item:hover {
-  background: var(--primary-soft);
-  color: var(--primary);
-}
-
-/* Make the logout button visible */
-.navbar .btn-outline-danger {
-  color: var(--error);
-  border-color: var(--error);
-  background: transparent;
-}
-
-.navbar .btn-outline-danger:hover {
-  background: var(--error);
-  color: white;
-}
 
 /* Ensure the role badge (admin/manager) is visible */
 .navbar .fw-bold.text-capitalize {
@@ -973,68 +1086,6 @@ h1 {
   padding: 0.3rem 0.75rem;
   border-radius: 40px;
   font-size: 0.8rem;
-}
-/* ========== EMERGENCY FIX: Make ALL buttons visible ========== */
-/* This overrides any hidden/transparent button styles */
-
-/* All buttons everywhere */
-button,
-button[type="submit"],
-button[type="button"],
-.btn,
-.navbar-nav .nav-link,
-.toDos button,
-.taskItem button,
-.Form button,
-.Form button[type="submit"] {
-  display: inline-block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  background: linear-gradient(135deg, #4f46e5, #0ea5e9) !important;
-  color: white !important;
-  border: none !important;
-  padding: 0.5rem 1rem !important;
-  border-radius: 40px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  text-shadow: none !important;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
-}
-
-/* Specific fix for Login and Signup links in navbar */
-.navbar-nav .nav-link[href="/Login"],
-.navbar-nav .nav-link[href="/SignUp"] {
-  background: linear-gradient(135deg, #4f46e5, #0ea5e9) !important;
-  color: white !important;
-  padding: 0.4rem 1rem !important;
-  border-radius: 40px !important;
-  margin-left: 0.5rem !important;
-}
-
-/* Fix for Add Task button inside .toDos */
-.toDos button {
-  background: linear-gradient(135deg, #4f46e5, #0ea5e9) !important;
-  color: white !important;
-  padding: 0.7rem 1rem !important;
-  font-size: 1rem !important;
-}
-
-/* Fix for logout button (outline danger) */
-.btn-outline-danger {
-  background: transparent !important;
-  border: 1px solid #ef4444 !important;
-  color: #ef4444 !important;
-}
-
-.btn-outline-danger:hover {
-  background: #ef4444 !important;
-  color: white !important;
-}
-
-/* Ensure all buttons are clickable and not hidden behind anything */
-button, .btn {
-  z-index: 1000 !important;
-  position: relative !important;
 }
 
 /* -------------------------------

@@ -17,7 +17,8 @@ function NavBar() {
   };
 
   return (
-    <Navbar expand="lg"  className="shadow-sm">
+    // <Navbar expand="lg"  className="shadow-sm">
+    <Navbar expand="lg" className="custom-navbar shadow-sm">
       <Container>
         <Navbar.Brand as={Link} to="/">Collab Desk</Navbar.Brand>
 
