@@ -1484,3 +1484,27 @@ button {
     transform: none;
   }
 }
+
+
+
+/* Dropdown Menu Styling */
+.custom-navbar .dropdown-menu {
+  background: rgba(15, 23, 42, 0.97) !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.custom-navbar .dropdown-item {
+  color: #cbd5f5 !important;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  transition: 0.2s;
+}
+
+.custom-navbar .dropdown-item:hover {
+  background: rgba(124, 58, 237, 0.2) !important;
+  color: #ffffff !important;
+}
