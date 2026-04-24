@@ -255,10 +255,7 @@ const undoDelete = (toastId) => {
 </button>
           </div>
         ))}
-        <div className="taskMetaGroup">
-  <span>Type: {t.taskType}</span>
-  <span>Priority: {t.priority}</span>
-</div>
+      
       </div>
     </>
   );
