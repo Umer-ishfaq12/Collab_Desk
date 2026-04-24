@@ -91,6 +91,24 @@ button {
   50% { transform: translate(30px, -30px) scale(1.05); }
 }
 
+/* NEW: Gradient Shift Animation for Brand */
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* NEW: Shimmer Animation for Top Border */
+@keyframes shimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* NEW: Pulse Animation for Online Dot */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+  50% { opacity: 0.5; transform: translateY(-50%) scale(1.8); }
+}
+
 .title {
   font-size: clamp(2.5rem, 8vw, 5rem);
   font-weight: 900;
@@ -400,62 +418,195 @@ button {
 }
 
 /* ===================================
-   NAVBAR CSS
+   NAVBAR CSS - REVAMPED STYLISH VERSION
    =================================== */
 
 .custom-navbar {
   background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
 }
 
+/* 🔥 Animated Top Border Line */
+.custom-navbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #7c3aed, #06b6d4, #a78bfa, #06b6d4, #7c3aed);
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+  z-index: 1;
+}
+
+/* ✨ Glass Reflection Sweep on Hover */
+.custom-navbar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+  transition: 0.8s ease;
+  pointer-events: none;
+}
+
+.custom-navbar:hover::after {
+  left: 150%;
+}
+
+/* 🌟 Animated Gradient Brand Name */
 .custom-navbar .navbar-brand {
-  font-weight: 700;
-  font-size: 1.3rem;
-  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.4rem;
+  background: linear-gradient(270deg, #7c3aed, #06b6d4, #a78bfa);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 4s ease infinite;
+  letter-spacing: 0.5px;
 }
 
+/* 💊 Pill-Shaped Nav Links with Hover Glow */
 .custom-navbar .nav-link {
   color: #cbd5f5 !important;
   font-weight: 500;
-  transition: 0.2s;
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
+  transition: 0.3s ease;
+  padding: 0.5rem 1.2rem !important;
+  border-radius: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background glow that reveals on hover */
+.custom-navbar .nav-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(6, 182, 212, 0.2));
+  border-radius: 30px;
+  opacity: 0;
+  transition: 0.3s ease;
 }
 
 .custom-navbar .nav-link:hover {
-  color: #7c3aed !important;
-  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff !important;
 }
 
+.custom-navbar .nav-link:hover::before {
+  opacity: 1;
+}
+
+/* 🔵 Active/Current Page Link - Glowing Underline */
+.custom-navbar .nav-link.active {
+  color: #ffffff !important;
+  position: relative;
+}
+
+.custom-navbar .nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 3px;
+  background: linear-gradient(90deg, #7c3aed, #06b6d4);
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.8);
+}
+
+/* 🟢 Role Badge with Pulsating Online Dot */
 .custom-navbar .fw-bold {
-  background: rgba(124, 58, 237, 0.2);
-  color: #a78bfa;
-  padding: 0.3rem 0.7rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-}
-
-.custom-navbar .btn-outline-danger {
-  border-radius: 20px;
-  padding: 0.3rem 0.8rem;
-}
-
-/* Ensure role badge is visible */
-.navbar .fw-bold.text-capitalize {
-  color: var(--primary);
-  background: var(--primary-soft);
-  padding: 0.3rem 0.75rem;
+  background: rgba(124, 58, 237, 0.2) !important;
+  color: #c4b5fd !important;
+  padding: 0.4rem 0.9rem !important;
   border-radius: 40px;
   font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  position: relative;
+  padding-left: 1.6rem !important;
 }
 
+/* Pulsating green dot */
+.custom-navbar .fw-bold::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.7);
+}
+
+/* Ensure role badge in .navbar also gets style */
+.navbar .fw-bold.text-capitalize {
+  color: #c4b5fd !important;
+  background: rgba(124, 58, 237, 0.2) !important;
+  padding: 0.4rem 0.9rem !important;
+  border-radius: 40px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  position: relative;
+  padding-left: 1.6rem !important;
+}
+
+.navbar .fw-bold.text-capitalize::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.7);
+}
+
+/* 🚪 Logout Button - Red Glass Style */
+.custom-navbar .btn-outline-danger {
+  border-radius: 30px;
+  padding: 0.4rem 1rem;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.1);
+  transition: 0.3s ease;
+}
+
+.custom-navbar .btn-outline-danger:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.7);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+}
+
+/* 📱 Mobile Menu - Glass Card Style */
 @media (max-width: 992px) {
   .custom-navbar .navbar-collapse {
     margin-top: 1rem;
-    padding: 1rem;
-    background: rgba(15, 23, 42, 0.95);
-    border-radius: 12px;
+    padding: 1.2rem;
+    background: rgba(15, 23, 42, 0.97);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+  }
+  
+  .custom-navbar .nav-link {
+    text-align: center;
+    margin-bottom: 0.3rem;
   }
 }
 
@@ -1018,7 +1169,7 @@ button {
 }
 
 /* ===================================
-   TEAM COMPONENT
+   TEAM COMPONENT - REVAMPED STYLISH VERSION
    =================================== */
 
 .team-container {
@@ -1027,42 +1178,165 @@ button {
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
 }
 
+/* 🎨 Gradient Cards with 3D Tilt Effect */
 .team-card {
-  background: #77777d;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
   color: white;
-  padding: 20px;
-  border-radius: 12px;
+  padding: 24px 20px;
+  border-radius: 16px;
   text-align: center;
-  transition: 0.3s;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
 }
 
+/* 🌈 Alternate Card Gradients */
+.team-card:nth-child(odd) {
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+}
+
+.team-card:nth-child(even) {
+  background: linear-gradient(135deg, #0c4a6e, #164e63);
+}
+
+/* 🔝 Top Accent Line */
+.team-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 3px;
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(90deg, #7c3aed, #06b6d4);
+  transition: 0.4s ease;
+  z-index: 1;
+}
+
+.team-card:hover::before {
+  left: 10%;
+  right: 10%;
+  background: linear-gradient(90deg, #06b6d4, #7c3aed, #a78bfa);
+}
+
+/* ✨ Glass Reflection Sweep */
+.team-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.team-card:hover::after {
+  opacity: 1;
+}
+
+/* 🎯 3D Tilt on Hover */
 .team-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-10px) rotateX(4deg) rotateY(-4deg) scale(1.03);
+  box-shadow: 0 30px 60px rgba(124, 58, 237, 0.3), 0 0 0 1px rgba(124, 58, 237, 0.2);
 }
 
+/* 🟣 Avatar with Glowing Ring */
 .avatar {
-  width: 60px;
-  height: 60px;
-  background: #6861f5;
+  width: 65px;
+  height: 65px;
+  background: linear-gradient(135deg, #7c3aed, #06b6d4);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 10px;
-  font-size: 20px;
-  font-weight: bold;
+  margin: 0 auto 12px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: white;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.2);
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 1;
 }
 
+.team-card:hover .avatar {
+  box-shadow: 0 0 0 8px rgba(124, 58, 237, 0.35), 0 0 35px rgba(6, 182, 212, 0.5);
+  transform: scale(1.1);
+}
+
+/* 👤 Team Member Name - Gradient Text */
+.team-card h3,
+.team-card h4 {
+  color: white;
+  font-size: 1.15rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #c4b5fd, #67e8f9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 8px 0 4px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Small info text */
+.team-card p {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin: 4px 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* 💎 Role Badge - Glass Pill Style */
 .role {
   display: inline-block;
   margin-top: 10px;
-  background: #555454;
-  padding: 4px 10px;
-  border-radius: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 6px 16px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(6, 182, 212, 0.3));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  color: #e2e8f0;
+  position: relative;
+  z-index: 1;
+}
+
+/* 🌙 Dark mode refinements */
+.dark .team-card {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 📱 Mobile Responsive */
+@media (max-width: 600px) {
+  .team-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+  }
+  
+  .team-card {
+    padding: 18px 14px;
+  }
+  
+  .avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+  }
 }
 
 /* ===================================
