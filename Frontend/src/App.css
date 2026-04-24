@@ -678,6 +678,9 @@ h1 {
 .toDos:hover {
   box-shadow: var(--shadow-md);
 }
+.todo-page h1 {
+  color: transparent;
+}
 
 /* Inputs, selects, and button inside .toDos */
 .toDos input,
@@ -729,16 +732,7 @@ h1 {
 }
 
 /* Individual task card */
-.taskItem {
-  background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-  backdrop-filter: blur(12px);
-  border-radius: 18px;
-  padding: 1.4rem;
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  transition: 0.3s ease;
-  position: relative;
-}
+
 
 .taskItem:hover {
   transform: translateY(-6px) scale(1.01);
@@ -758,14 +752,7 @@ h1 {
   font-size: 0.85rem;
 }
 /* Priority badges */
-.taskItem p:nth-of-type(2) {  /* Priority line */
-  display: inline-block;
-  background: var(--bg-primary);
-  padding: 0.2rem 0.6rem;
-  border-radius: 40px;
-  width: fit-content;
-  font-weight: 500;
-}
+
 .taskMetaGroup {
   display: flex;
   justify-content: space-between;
@@ -777,10 +764,10 @@ h1 {
 }
 
 /* Priority colors */
-.taskItem p:contains("Priority: low") {
+/* .taskItem p:contains("Priority: low") {
   background: var(--success);
   color: white;
-}
+} */
 .priority {
   padding: 0.25rem 0.7rem;
   border-radius: 40px;
@@ -804,29 +791,26 @@ h1 {
   background: rgba(239,68,68,0.15);
   color: #ef4444;
 }
+.taskItem {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  transition: 0.3s;
+  position: relative;
+  z-index: 1; /* IMPORTANT */
+}
 
+.taskItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
 /* Using data attribute or class is better, but since we can't change JSX now,
    we'll use attribute selectors based on text content (works but not perfect).
    For a robust solution, add a class like 'priority-low' in JSX.
    I'll provide both: a fallback and a recommended approach. */
 
-/* Fallback: style based on text (less reliable but works in modern browsers) */
-.taskItem p:has(> span.priority-value) .priority-value[data-priority="low"] { background: #10b981; }
-/* Instead, I'll recommend adding a class to the paragraph or badge.
-   But since the user wants pure CSS now, I'll assume they will add a class. 
-   For this CSS to work perfectly, ask them to add a class like 'priority-low' etc.
-   Meanwhile, we style the plain text with a colored badge effect. */
-
-.taskItem p:nth-of-type(2) {
-  display: inline-block;
-  background: var(--primary-soft);
-  color: var(--primary);
-  padding: 0.2rem 0.8rem;
-  border-radius: 40px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  width: auto;
-}
 
 /* If we can't change JSX, we can style based on text content using JS? No.
    I'll provide a clean solution: add these classes in your Todo component.
@@ -841,6 +825,8 @@ h1 {
   cursor: pointer;
   border: none;
   transition: 0.2s;
+  position: relative;
+  z-index: 2;
 }
 
 .taskItem button:first-of-type {
@@ -867,20 +853,13 @@ h1 {
 }
 
 /* Remaining time styling */
-.taskItem p:last-of-type {
-  background: rgba(99,102,241,0.15);
-  color: #818cf8;
-  padding: 0.3rem 0.7rem;
-  border-radius: 40px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
+
 
 /* If remaining time is "Time's up!" style differently */
-.taskItem p:last-of-type:contains("Time's up!") {
+/* .taskItem p:last-of-type:contains("Time's up!") {
   background: var(--error);
   color: white;
-}
+} */
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -965,26 +944,7 @@ h1 {
 }
 
 /* Task card */
-/* .taskItem {
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  background: #f9f9f9;
-} */
-.taskItem {
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 12px;
-  transition: 0.3s;
-}
 
-.taskItem:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-}
 /* Task meta */
 .taskMeta {
   display: flex;
@@ -1023,13 +983,13 @@ h1 {
   overflow-y: auto;
   background: #fafafa;
 } */
-.chatMessages {
+/* .chatMessages {
   flex: 1;
   overflow-y: auto;
   padding: 15px;
   border-radius: 10px;
   background: linear-gradient(180deg, #020617, #020617);
-}
+} */
 
 /* Chat input */
 .chatInputBox {
@@ -1106,6 +1066,7 @@ h1 {
   background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
   opacity: 0;
   transition: 0.3s;
+   pointer-events: none;
 }
 
 .taskItem:hover::before {
@@ -1141,12 +1102,11 @@ h1 {
 }
 
 .chatMessages {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  height: 400px;
+  flex: 1;
   overflow-y: auto;
-  background: #ece5dd;
+  padding: 15px;
+  border-radius: 10px;
+  background: #020617;
 }
 
 /* Base bubble */
