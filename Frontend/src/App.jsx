@@ -20,6 +20,7 @@ import { Navigate } from "react-router-dom";
 import TaskChat from "./Components/TaskChat";
 import Team from "./Components/Team"
 import Footer from "./Components/Footer";
+import Tasks from "./Components/Task";
 function App() {
   const RequireAuth = ({ children, roles }) => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -55,6 +56,7 @@ function App() {
           <Route path="/SignUp" element={<SignUp />}></Route>
           <Route path="/chat" element={<TaskChat />}></Route>
           <Route path="/team" element={<Team />}></Route>
+          <Route path="/team" element={<Tasks />}></Route>
         </Routes>
         <Footer/>
       </Router>

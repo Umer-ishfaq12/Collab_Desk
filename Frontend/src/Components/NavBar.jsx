@@ -34,7 +34,9 @@ function NavBar() {
             {user && (
               <Nav.Link as={Link} to="/Team">Team</Nav.Link>
             )}
-
+{user && (
+              <Nav.Link as={Link} to="/Team">Task</Nav.Link>
+            )}
               {user && (
               <Nav.Link as={Link} to="/chat">task chat </Nav.Link>
             )}

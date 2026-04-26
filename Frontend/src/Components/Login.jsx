@@ -20,14 +20,15 @@ try {
 if(response.status == 200 || response.status == 201){
   const user = response.data.user;
   //For saving user info
-    localStorage.setItem("user", JSON.stringify(user));
+  localStorage.setItem("token", token);
+  localStorage.setItem("user", JSON.stringify(user));
 toast.success("successfull login")
  // redirect based on role
         if (user.role === "admin" || user.role === "manager") {
           navigate("/Todo");
         } else {
           // navigate("/user/dashboard");
-          toast.error("Something went wrong");
+          
           navigate("/");
         }
 }

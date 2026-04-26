@@ -33,7 +33,7 @@ const TodoSchema = new Schema({
 
   status: {
     type: String,
-    enum: ["pending", "in-progress", "completed"],
+    enum: ["pending", "submitted", "approved"],
     default: "pending"
   },
 
@@ -46,7 +46,8 @@ const TodoSchema = new Schema({
   assignedTo: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      ref: "User",
+      required: true
     }
   ],
 
@@ -55,7 +56,15 @@ const TodoSchema = new Schema({
     type: String,
     enum: ["low", "medium", "high"],
     default: "medium"
-  }
+  },
+  completedBy: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User",
+},
+
+completedAt: {
+  type: Date,
+}
 
 }, { timestamps: true });
 
