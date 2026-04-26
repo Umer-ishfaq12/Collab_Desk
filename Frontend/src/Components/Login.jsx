@@ -18,10 +18,13 @@ try {
 })
 
 if(response.status == 200 || response.status == 201){
-  const user = response.data.user;
-  //For saving user info
-  localStorage.setItem("token", token);
-  localStorage.setItem("user", JSON.stringify(user));
+  // const user = response.data.user;
+  // //For saving user info
+  // localStorage.setItem("token", token);
+  // localStorage.setItem("user", JSON.stringify(user));
+  const { token, user } = response.data; // ✅ destructure both
+localStorage.setItem("token", token);
+localStorage.setItem("user", JSON.stringify(user));
 toast.success("successfull login")
  // redirect based on role
         if (user.role === "admin" || user.role === "manager") {
@@ -33,7 +36,8 @@ toast.success("successfull login")
         }
 }
 } catch (error) {
-  
+   console.log(error);
+  toast.error("Login failed: " + error.message);
 }
 }
 
