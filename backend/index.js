@@ -64,7 +64,7 @@ io.on("connection", (socket) => {
 // app.use(cors())
 app.use(cors({
   origin: "https://collab-desk-gamma.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
   credentials: true
 }));
 app.use(express.json());
