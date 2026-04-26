@@ -24,9 +24,10 @@ router.post("/messages",protect, createMessage);
 router.get("/unread/:userId",protect, getUnreadCounts);
 router.get("/messages/:taskId",protect, getMsg);
 router.put("/messages/:id",protect, updateMsg);
-router.delete("/messages/:id",protect, deleteMsg);
-router.put("/messages/read",protect, 
-     markAsRead);
+// router.delete("/messages/:id",protect, deleteMsg);
+// router.put("/messages/read",protect, markAsRead);
+router.put("/messages/read", protect, markAsRead);  // FIRST
+router.put("/messages/:id", protect, updateMsg);
 
 router.post("/signup",SignUp)
 router.post("/login",Login)
