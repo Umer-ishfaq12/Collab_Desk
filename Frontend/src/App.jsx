@@ -56,7 +56,7 @@ function App() {
           <Route path="/SignUp" element={<SignUp />}></Route>
           <Route path="/chat" element={<TaskChat />}></Route>
           <Route path="/team" element={<Team />}></Route>
-          <Route path="/team" element={<Tasks />}></Route>
+          <Route path="/task" element={<Tasks />}></Route>
         </Routes>
         <Footer/>
       </Router>
