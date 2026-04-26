@@ -8,6 +8,7 @@ function Todo() {
   const [pendingDelete, setPendingDelete] = useState(null);
   const [timerId, setTimerId] = useState(null);
   const [tasks, setTasks] = useState([]);
+  const [users, setUsers] = useState([]);
   const [editId, setEditId] = useState(null);
   const [form, setForm] = useState({
     taskName: "",
@@ -16,6 +17,7 @@ function Todo() {
     taskStart: "",
     taskEnd: "",
     priority: "medium",
+    assignedTo: [],
   });
 
   // handle all inputs
@@ -44,6 +46,7 @@ function Todo() {
         taskStart: "",
         taskEnd: "",
         priority: "medium",
+        assignedTo: [],
       });
       toast.success("Task ADDED successfully");
     } catch (error) {
@@ -163,6 +166,14 @@ function Todo() {
     });
   };
 
+  // for fecth and assigning users
+
+  useEffect(() => {
+    axios1
+      .get("/api/users")
+      .then((res) => setUsers(res.data))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <>
       <h1 className="text-center">Collab Desk Tasks</h1>
@@ -209,6 +220,24 @@ function Todo() {
           <option value="high">High</option>
         </select>
 
+        <select
+          multiple
+          name="assignedTo"
+          value={form.assignedTo}
+          onChange={(e) => {
+            const selected = Array.from(
+              e.target.selectedOptions,
+              (opt) => opt.value,
+            );
+            setForm((prev) => ({ ...prev, assignedTo: selected }));
+          }}
+        >
+          {users.map((u) => (
+            <option key={u._id} value={u._id}>
+              {u.username}
+            </option>
+          ))}
+        </select>
         {/* <button onClick={addTask}>Add Task</button> */}
         <button onClick={editId ? updateTask : addTask}>
           {editId ? "Update Task" : "Add Task"}
@@ -228,7 +257,7 @@ function Todo() {
             {t.status === "submitted" && (
               <button onClick={() => approveTask(t._id)}>Approve</button>
             )}
-            
+
             <p>Status: {t.status}</p>
             <button onClick={() => handleEdit(t)}>Edit</button>
             <button onClick={() => deleteTask(t)}>Delete</button>
