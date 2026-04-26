@@ -220,24 +220,41 @@ function Todo() {
           <option value="high">High</option>
         </select>
 
-        <select
-          multiple
-          name="assignedTo"
-          value={form.assignedTo}
-          onChange={(e) => {
-            const selected = Array.from(
-              e.target.selectedOptions,
-              (opt) => opt.value,
-            );
-            setForm((prev) => ({ ...prev, assignedTo: selected }));
-          }}
-        >
-          {users.map((u) => (
-            <option key={u._id} value={u._id}>
-              {u.username}
-            </option>
-          ))}
-        </select>
+        <div className="userCheckboxList">
+  <label>
+    <input
+      type="checkbox"
+      checked={form.assignedTo.length === users.length}
+      onChange={(e) => {
+        setForm((prev) => ({
+          ...prev,
+          assignedTo: e.target.checked ? users.map((u) => u._id) : []
+        }));
+      }}
+    />
+    Select All
+  </label>
+
+  {users.map((u) => (
+    <label key={u._id}>
+      <input
+        type="checkbox"
+        value={u._id}
+        checked={form.assignedTo.includes(u._id)}
+        onChange={(e) => {
+          const id = e.target.value;
+          setForm((prev) => ({
+            ...prev,
+            assignedTo: e.target.checked
+              ? [...prev.assignedTo, id]
+              : prev.assignedTo.filter((uid) => uid !== id)
+          }));
+        }}
+      />
+      {u.username}
+    </label>
+  ))}
+</div>
         {/* <button onClick={addTask}>Add Task</button> */}
         <button onClick={editId ? updateTask : addTask}>
           {editId ? "Update Task" : "Add Task"}
