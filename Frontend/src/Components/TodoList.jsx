@@ -166,6 +166,16 @@ function Todo() {
     });
   };
 
+  const approveTask = async (id) => {
+  try {
+    const res = await axios1.patch(`/api/tasks/${id}/approve`);
+    setTasks((prev) => prev.map((t) => (t._id === id ? res.data : t)));
+    toast.success("Task approved");
+  } catch (error) {
+    toast.error("Failed to approve task");
+  }
+};
+
   // for fecth and assigning users
 
   useEffect(() => {
