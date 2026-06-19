@@ -67,6 +67,10 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
   credentials: true
 }));
+//just to activate for render in uptimeboat
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
 app.use(express.json());
 app.use("/api",UserRoutes)
 app.set("io", io);
